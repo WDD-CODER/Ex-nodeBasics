@@ -8,5 +8,8 @@
   },
   "author": "Dan Weibren",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "ms": "^2.1.3"
+  }
 }
