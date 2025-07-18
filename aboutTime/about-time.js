@@ -1,6 +1,5 @@
 import ms from 'ms'
 import fs from 'fs'
-import { resolve } from 'path'
 
 
 readFile()
