@@ -3,7 +3,7 @@ import fs from 'fs'
 
 
 readFile()
-function timeStamps() {
+function readFile() {
     fs.readFile('./aboutTime/timeStamps.txt', 'utf8', (err, content) => {
         if (err) return console.log('Cannot read file', err)
         console.log(content)
