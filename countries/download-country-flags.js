@@ -4,8 +4,8 @@ import path from 'path'
 import { utilService } from '../util.service.js';
 
 Promise.all([
-    downloadCountryFlags('flagsSvg','svg').then(getFolderSize),
-    downloadCountryFlags('flagsPng','png').then(getFolderSize)
+    downloadCountryFlags('flagsSvg', 'svg').then(getFolderSize),
+    downloadCountryFlags('flagsPng', 'png').then(getFolderSize)
 ])
     .then(([svgSize, pngSize]) => {
         howIsBigger(svgSize, pngSize)
@@ -14,7 +14,8 @@ Promise.all([
 
 function downloadCountryFlags(folderName, fileType) {
     const countries = getCountries()
-    // console.log('Countries:', countries.map(c => c.name))
+    console.log("🚀 ~ downloadCountryFlags ~ countries:", countries)
+    // console.log('Countries:', countries.map(c => c))
     return downloadFlags(countries, folderName, fileType)
         .then(() => {
             console.log('Your flags are ready')
@@ -27,11 +28,15 @@ function downloadCountryFlags(folderName, fileType) {
 function getCountries() {
     var countries = []
     const data = utilService.readJsonFile('./countries/countries.json')
-    const sortedData = data.sort((a, b) => b.population - a.population);
-    for (let i = 0; i < 5; i++) {
-        countries.push(sortedData[i])
-    }
-    return countries
+    countries = data.sort((a, b) => b.population - a.population).slice(0, 5)
+    return countries.map(country => 
+         ({
+            name: country.name.common,
+            capital: country.capital,
+            population: country.population,
+            flags: country.flags
+        })
+    )
 }
 
 
@@ -41,6 +46,7 @@ function downloadFlags(countries, folderName, fileType) {
         console.log('no folder before! made a new oen!')
         fs.mkdirSync(downloadDir)
     }
+
     const prms = countries.map(country => {
         const url = country.flags[fileType]
         const name = country.name.common

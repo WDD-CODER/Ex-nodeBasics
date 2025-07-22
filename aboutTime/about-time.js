@@ -6,16 +6,13 @@ readFile()
 function readFile() {
     fs.readFile('./aboutTime/timeStamps.txt', 'utf8', (err, content) => {
         if (err) return console.log('Cannot read file', err)
-        console.log(content)
-        const lines = content.split('\n')
-        getMsForTimeStamp(lines)
-    })
-}
-
-function getMsForTimeStamp(cleanLines) {
-    cleanLines.forEach(line => {
-        const num = Number(line)
-        console.log(ms(num, { long: true }))
+        const nums = content.split('\r\n').filter(num => num)
+        const timeStamps = nums.map(num => Number(num))
+        timeStamps.forEach(timeStamp => {
+            return console.log({
+                timeStamp,
+                timeStampsByName: ms(timeStamp, { long: true }) })
+         })
     })
 }
 
